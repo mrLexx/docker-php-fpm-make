@@ -19,12 +19,13 @@ if echo ${version[@]} | grep -q -w "$1"; then
     echo "==="
     echo "== rename devilbox/php-fpm-$1 to mrlexx/php-fpm-$1"
     echo "==="
-    docker image tag devilbox/php-fpm-$1 mrlexx/php-fpm-$1
-    docker image rm devilbox/php-fpm-$1
 
-    php_version=$(docker run --rm mrlexx/php-fpm-$1 php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
-    echo "$php_version"
-    docker image tag mrlexx/php-fpm-$1 mrlexx/php-fpm-$1:$php_version
+    php_version=$(docker run --rm devilbox/php-fpm-$1 php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
+
+    docker image tag devilbox/php-fpm-$1 mrlexx/php-fpm-$1
+    docker image tag devilbox/php-fpm-$1 mrlexx/php-fpm-$1:$php_version
+
+    docker image rm devilbox/php-fpm-$1
     echo
 
     echo "==="
@@ -32,12 +33,14 @@ if echo ${version[@]} | grep -q -w "$1"; then
     echo "==="
     docker push mrlexx/php-fpm-$1
     echo
+
     echo "==="
     echo "== push mrlexx/php-fpm-$1:$php_version"
     echo "==="
     docker push mrlexx/php-fpm-$1:$php_version
     docker image rm mrlexx/php-fpm-$1:$php_version
     echo
+
     cd $SCRIPTPATH
 else
 	echo "== make php-fpm image"
