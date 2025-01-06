@@ -7,3 +7,6 @@
 [submodule "docker-php-fpm-8.3"]
 	path = docker-php-fpm-8.3
 	url = https://github.com/mrLexx/docker-php-fpm-8.3
+[submodule "docker-php-fpm-8.4"]
+	path = docker-php-fpm-8.4
+	url = https://github.com/mrLexx/docker-php-fpm-8.4
