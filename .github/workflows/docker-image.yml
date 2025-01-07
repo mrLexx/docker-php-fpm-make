@@ -26,5 +26,17 @@ jobs:
         submodules: recursive    
 
     - 
+      name: Params
+      run: VERSION=8.1; REPOSITORY_NAME=mrlexx
+
+    - 
       name: Build the Docker image
-      run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=mrlexx
+      run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
+
+    - 
+      name: Get version Php
+      run: php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-$VERSION php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
+
+    - 
+      name: Copy image with PHP version
+      run: docker image tag $REPOSITORY_NAME/php-fpm-$VERSION $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
