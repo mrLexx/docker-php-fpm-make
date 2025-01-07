@@ -13,13 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Update references
-    - name: checkout all the submodules
+    - 
+      name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - 
+      name: Checkout
       uses: actions/checkout@v4
       with:
         submodules: recursive    
-        
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      # run: docker build . --file ./docker-php-fpm-8.1/Dockerfiles/Dockerfile --tag mrlexx/php-fpm-8.1
-      run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=mrlexx
+
+    # - name: Build the Docker image
+    #   # run: docker build . --file ./docker-php-fpm-8.1/Dockerfiles/Dockerfile --tag mrlexx/php-fpm-8.1
+    #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=mrlexx
