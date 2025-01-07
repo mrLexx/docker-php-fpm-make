@@ -41,8 +41,7 @@ jobs:
     
     - name: Get version Php
       run: 
-        php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-$VERSION php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";') |
-        echo "php_version=$php_version" >> $GITHUB_ENV
+        echo "php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-$VERSION php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
     
     - name: Copy image with PHP version
       run: docker image tag $REPOSITORY_NAME/php-fpm-$VERSION $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
