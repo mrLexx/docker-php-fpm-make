@@ -5,45 +5,68 @@ SCRIPTPATH=`dirname $SCRIPT`
 
 cd $SCRIPTPATH
 
-version=('8.1','8.2','8.3','8.4')
+versions=('8.1' '8.2' '8.3' '8.4')
 
-if echo ${version[@]} | grep -q -w "$1"; then
-    cd ./docker-php-fpm-$1
+REPOSITORY_NAME=devilbox
+
+for ARGUMENT in "$@"
+do
+
+    KEY=$(echo $ARGUMENT | cut -f1 -d=)
+    VALUE=$(echo $ARGUMENT | cut -f2 -d=)   
+
+    case "$KEY" in
+            REPOSITORY_NAME)    REPOSITORY_NAME=${VALUE} ;;     
+            VERSION)              VERSION=${VALUE} ;;
+            *)   
+    esac    
+
+
+done
+
+if echo ${versions[@]} | grep -q -w "$VERSION"; then
+
+    cd ./docker-php-fpm-$VERSION
     docker pull debian:bullseye-slim
     echo "==="
     echo "== make php-fpm image"
     echo "==="
-    make build
+    make build REPOSITORY_NAME=$REPOSITORY_NAME
     echo
 
-    echo "==="
-    echo "== rename devilbox/php-fpm-$1 to mrlexx/php-fpm-$1"
-    echo "==="
+    if [[ "${REPOSITORY_NAME,,}" != "devilbox" ]]; then
 
-    php_version=$(docker run --rm devilbox/php-fpm-$1 php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
+        echo "==="
+        echo "== copy php-fpm image to PHP version"
+        echo "==="
+        php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-$VERSION php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
+        docker image tag $REPOSITORY_NAME/php-fpm-$VERSION $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
 
-    docker image tag devilbox/php-fpm-$1 mrlexx/php-fpm-$1
-    docker image tag devilbox/php-fpm-$1 mrlexx/php-fpm-$1:$php_version
+        echo
 
-    docker image rm devilbox/php-fpm-$1
-    echo
+        echo "==="
+        echo "== push $REPOSITORY_NAME/php-fpm-$VERSION:latest"
+        echo "==="
+        docker push $REPOSITORY_NAME/php-fpm-$VERSION
+        echo
 
-    echo "==="
-    echo "== push mrlexx/php-fpm-$1:latest"
-    echo "==="
-    docker push mrlexx/php-fpm-$1
-    echo
-
-    echo "==="
-    echo "== push mrlexx/php-fpm-$1:$php_version"
-    echo "==="
-    docker push mrlexx/php-fpm-$1:$php_version
-    docker image rm mrlexx/php-fpm-$1:$php_version
-    echo
+        echo "==="
+        echo "== push $REPOSITORY_NAME/php-fpm-$VERSION:$php_version"
+        echo "==="
+        docker push $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
+        docker image rm $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
+        echo
+    fi
 
     cd $SCRIPTPATH
 else
+    delimiter="|"
+    joined_versions=$(printf "%s$delimiter" "${versions[@]}")
+    joined_versions=${joined_versions%$delimiter}  # Удалить последний разделитель
+
 	echo "== make php-fpm image"
-	echo " make.sh version "
-	echo "  * available version 8.1|8.2|8.3|8.4"
+	echo " make-php-fpm.sh REPOSITORY_NAME=your_hub_docker_name VERSION=X.X"
+	echo "  * Available versions $joined_versions"
+	echo "  * Default REPOSITORY_NAME=devilbox"
+	echo "  * When REPOSITORY_NAME=devilbox -> only build, without push to https://hub.docker.com/"
 fi
