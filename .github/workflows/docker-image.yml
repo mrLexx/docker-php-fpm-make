@@ -14,15 +14,10 @@ jobs:
 
     steps:
     # Update references
-    - name: Checkout
+    - name: checkout all the submodules
       uses: actions/checkout@v4
       with:
-        submodules: recursive
-        
-    - name: Git Submodule Update
-      run: |
-        git pull --recurse-submodules
-        git submodule update --remote --recursive    
+        submodules: recursive    
         
     - uses: actions/checkout@v4
     - name: Build the Docker image
