@@ -13,6 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Update references
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+        
+    - name: Git Submodule Update
+      run: |
+        git pull --recurse-submodules
+        git submodule update --remote --recursive    
+        
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file ./docker-php-fpm-8.1/Dockerfiles/Dockerfile --tag mrlexx/php-fpm-8.1
