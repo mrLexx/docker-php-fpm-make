@@ -26,8 +26,8 @@ jobs:
         submodules: recursive    
 
     - 
-      name: Params
-      run: VERSION=8.1; REPOSITORY_NAME=mrlexx
+      name: Params 
+      run: VERSION=8.1 && REPOSITORY_NAME=mrlexx
 
     - 
       name: Build the Docker image
