@@ -13,33 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - 
-      name: Login to Docker Hub
+    
+    - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - 
-      name: Checkout
+    
+    - name: Checkout
       uses: actions/checkout@v4
       with:
         submodules: recursive    
 
-    - name: Set env
+    - name: Set VERSION
       run: echo "VERSION=8.1" >> $GITHUB_ENV
-    - name: Test
-      run: echo $VERSION
-    - name: Params 
-      run: VERSION=8.1 && REPOSITORY_NAME=mrlexx
 
-    - 
-      name: Build the Docker image
+    - name: Set REPOSITORY_NAME
+      run: echo "REPOSITORY_NAME=mrlexx" >> $GITHUB_ENV
+    
+    - name: Build the Docker image
       run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
-
-    - 
-      name: Get version Php
+    
+    - name: Get version Php
       run: php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-$VERSION php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')
-
-    - 
-      name: Copy image with PHP version
+    
+    - name: Copy image with PHP version
       run: docker image tag $REPOSITORY_NAME/php-fpm-$VERSION $REPOSITORY_NAME/php-fpm-$VERSION:$php_version
