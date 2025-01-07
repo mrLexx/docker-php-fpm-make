@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker-php-fpm-8.1/make build REPOSITORY_NAME=mrlexx
+      run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=mrlexx
