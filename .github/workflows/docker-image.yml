@@ -1,5 +1,8 @@
-name: Docker Image CI
-
+name: php-fpm 8.1
+env:
+  VERSION: '8.1'
+  REPOSITORY_NAME: "mrlexx"
+  
 on:
   push:
     branches: [ "master" ]
@@ -25,10 +28,10 @@ jobs:
       with:
         submodules: recursive    
 
-    - name: Set PARAMS
-      run: 
-        echo "VERSION=8.1" >> $GITHUB_ENV |
-        echo "REPOSITORY_NAME=mrlexx" >> $GITHUB_ENV
+    # - name: Set PARAMS
+    #   run: 
+    #     echo "VERSION=8.1" >> $GITHUB_ENV |
+    #     echo "REPOSITORY_NAME=mrlexx" >> $GITHUB_ENV
 
     # - name: Set VERSION
     #   run: echo "VERSION=8.1" >> $GITHUB_ENV
