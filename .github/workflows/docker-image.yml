@@ -20,7 +20,7 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-make.yml@master
+    # - uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-make.yml@master
     
     # - name: Checkout
     #   uses: actions/checkout@v4
