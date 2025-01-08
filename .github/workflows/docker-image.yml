@@ -5,7 +5,9 @@ env:
 # on:
   # schedule:
     # - cron: '0 0 * * 3'
-on: push
+on:
+  push:
+    branches: [ "master" ]
 jobs:
   build:
     strategy:
