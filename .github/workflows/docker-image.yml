@@ -20,18 +20,19 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive    
-    - name: Build the Docker image
-      run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
-    - name: Get version Php
-      run: 
-        echo "php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-${{ matrix.version }} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
-    - name: Copy image with PHP version
-      run: docker image tag $REPOSITORY_NAME/php-fpm-${{ matrix.version }} $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
-    - name: Push
-      run: 
-        docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }} |
-        docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
+    - uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-make.yml@master
+    # - name: Checkout
+    #   uses: actions/checkout@v4
+    #   with:
+    #     submodules: recursive    
+    # - name: Build the Docker image
+    #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
+    # - name: Get version Php
+    #   run: 
+    #     echo "php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-${{ matrix.version }} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
+    # - name: Copy image with PHP version
+    #   run: docker image tag $REPOSITORY_NAME/php-fpm-${{ matrix.version }} $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
+    # - name: Push
+    #   run: 
+    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }} |
+    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
