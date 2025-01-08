@@ -2,9 +2,6 @@ name: php-fpm 8.1
 env:
   VERSION: '8.1'
   REPOSITORY_NAME: "mrlexx"
-# on:
-  # schedule:
-    # - cron: '0 0 * * 3'
 on:
   push:
     branches: [ "master" ]
