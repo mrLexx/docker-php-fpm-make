@@ -20,9 +20,11 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Get last version php-fpm
+    - name: Get last version Docker
       run: 
         echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
+    - name: Get last version PHP
+      run: 
         echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
     - name: Check docker version
       run: 
