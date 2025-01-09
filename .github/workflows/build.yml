@@ -20,6 +20,8 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Get last version php-fpm
+      run: echo "last_version_mrlexx=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-8.1/tags' -H 'Content-Type: application/json' | jq -r '.results[-1].name')" >> $GITHUB_ENV
     # - name: Checkout
     #   uses: actions/checkout@v4
     #   with:
