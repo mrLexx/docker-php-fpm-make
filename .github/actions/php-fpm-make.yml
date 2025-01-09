@@ -1,0 +1,34 @@
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+name: 'PHP Fpm make and push'
+description: ""
+author: 'mrLexx'
+branding:
+  icon: 'code'
+  color: 'green'
+
+inputs:
+  version:
+    description: 'PHP version'
+    required: true
+  
+  repository_name:
+    description: 'Docker repository_name'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+     - name: Build the Docker image
+       run: cd ./docker-php-fpm-${VERSION} && make build REPOSITORY_NAME=${REPOSITORY_NAME}
+     - name: Get version Php
+       run: 
+         echo "php_version=$(docker run --rm ${REPOSITORY_NAME}/php-fpm-${VERSION} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
+     - name: Copy image with PHP version
+       run: docker image tag ${REPOSITORY_NAME}/php-fpm-${VERSION} ${REPOSITORY_NAME}/php-fpm-${VERSION}:$php_version
+     - name: Push
+       run: 
+         docker push ${REPOSITORY_NAME}/php-fpm-${VERSION} |
+         docker push ${REPOSITORY_NAME}/php-fpm-${VERSION}:$php_version      
+       env:
+        VERSION: ${{ inputs.version }}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
