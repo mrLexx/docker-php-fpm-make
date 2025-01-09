@@ -21,7 +21,7 @@ jobs:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build
-      uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-build.yml@feature/docker-build
+      uses: mrlexx/docker-php-fpm-make/.github/workflows/php-fpm-build.yml@feature/docker-build
     
     # - name: Checkout
     #   uses: actions/checkout@v4
