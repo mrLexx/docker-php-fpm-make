@@ -2,7 +2,7 @@ name: php-fpm 8.1
 env:
   REPOSITORY_NAME: "mrlexx"
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
+  # Triggers the workflow on push or pull request events but only for the "master" branch1
   push:
     branches: [ "master" ]
   pull_request:
