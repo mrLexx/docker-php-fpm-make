@@ -1,4 +1,4 @@
-name: php-fpm 8.1
+name: php-fpm make
 env:
   REPOSITORY_NAME: "mrlexx"
 on:
