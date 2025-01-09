@@ -33,7 +33,7 @@ jobs:
       run: 
         echo $last_version_php
     - name: Checkout
-      if: ${{last_version_docker != last_version_php}}
+      if: ${{ env.last_version_docker != env.last_version_php }}
       uses: actions/checkout@v4
       with:
         submodules: recursive    
