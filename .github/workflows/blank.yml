@@ -1,0 +1,40 @@
+name: php-fpm 8.1
+env:
+  VERSION: '8.1'
+  REPOSITORY_NAME: "mrlexx"
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+jobs:
+  build:
+    strategy:
+        matrix:
+          version: [8.1]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # - uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-make.yml@master
+    
+    # - name: Checkout
+    #   uses: actions/checkout@v4
+    #   with:
+    #     submodules: recursive    
+    # - name: Build the Docker image
+    #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
+    # - name: Get version Php
+    #   run: 
+    #     echo "php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-${{ matrix.version }} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
+    # - name: Copy image with PHP version
+    #   run: docker image tag $REPOSITORY_NAME/php-fpm-${{ matrix.version }} $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
+    # - name: Push
+    #   run: 
+    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }} |
+    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
