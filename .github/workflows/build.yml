@@ -26,12 +26,12 @@ jobs:
     - name: Get last version PHP
       run: 
         echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
-    # - name: Check docker version
-    #   run: 
-    #     echo $last_version_docker
-    # - name: Check PHP version
-    #   run: 
-    #     echo $last_version_php
+    - name: Check docker version
+      run: 
+        echo $last_version_docker
+    - name: Check PHP version
+      run: 
+        echo $last_version_php
     # - name: Checkout
     #   uses: actions/checkout@v4
     #   with:
