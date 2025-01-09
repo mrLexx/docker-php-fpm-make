@@ -1,6 +1,5 @@
 name: php-fpm 8.1
 env:
-  VERSION: '8.1'
   REPOSITORY_NAME: "mrlexx"
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
@@ -21,7 +20,8 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    # - uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-make.yml@master
+    - name: Build
+      uses: mrLexx/docker-php-fpm-make/.github/workflows/php-fpm-build.yml@master
     
     # - name: Checkout
     #   uses: actions/checkout@v4
