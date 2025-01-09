@@ -22,11 +22,12 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Get last version php-fpm
       run: 
-        echo "last_version_mrlexx=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-8.1/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
-        # echo "last_version_mrlexx=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-8.1/tags' -H 'Content-Type: application/json' | jq -r '.results[-1].name')" >> $GITHUB_ENV |
-        # last_version_mrlexx=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-8.1/tags' -H 'Content-Type: application/json' | jq -r '.results[-1].name') |
+        echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
+        echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
     - name: Check
-      run: echo $last_version_mrlexx
+      run: 
+        echo $last_version_docker |
+        echo $last_version_php
     # - name: Checkout
     #   uses: actions/checkout@v4
     #   with:
