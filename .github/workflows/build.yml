@@ -1,6 +1,6 @@
 name: php-fpm make
 env:
-  REPOSITORY_NAME: "mrlexx"
+  REPOSITORY_NAME: "mrlexx/php-fpm"
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch1
   push:
@@ -22,7 +22,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Get last version Docker
       run: 
-        echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/mrlexx/php-fpm-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
+        echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/${REPOSITORY_NAME}-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
     - name: Get last version PHP
       run: 
         echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
@@ -46,7 +46,7 @@ jobs:
       uses: ./.github/actions/test-action
       with:
         version: ${{ matrix.version }}
-        repository_name: ${REPOSITORY_NAME}
+        repository_name: $REPOSITORY_NAME
     # - name: Build the Docker image
     #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
     # - name: Get version Php
