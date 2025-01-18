@@ -8,7 +8,8 @@ jobs:
   build:
     strategy:
       matrix:
-        version: [8.1, 8.2, 8.3, 8.4]
+        # version: [8.1, 8.2, 8.3, 8.4]
+        version: [8.3]
     runs-on: ubuntu-latest
     steps:
       
@@ -19,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Get last version Docker
-        run: echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/${{ vars.REPOSITORY_NAME }}-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
+        run: echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/${{ vars.REPOSITORY_NAME }}-${{ matrix.version }}/tags' | jq -r '.results | del(..|select(. == "latest")) | max_by(.name).name')" >> $GITHUB_ENV
       
       - name: Get last version PHP
         run: echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
