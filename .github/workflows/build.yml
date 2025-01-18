@@ -1,12 +1,12 @@
 name: php-fpm make
-env:
-  REPOSITORY_NAME: "mrlexx/php-fpm"
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch1
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+env:
+  REPOSITORY_NAME: "mrlexx/php-fpm"
     
 jobs:
   build:
