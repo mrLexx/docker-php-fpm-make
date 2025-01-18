@@ -46,7 +46,7 @@ jobs:
       uses: ./.github/actions/test-action
       with:
         version: ${{ matrix.version }}
-        repository_name: ${{ REPOSITORY_NAME }}
+        repository_name: ${REPOSITORY_NAME}
     # - name: Build the Docker image
     #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
     # - name: Get version Php
