@@ -39,10 +39,16 @@ runs:
         VERSION: ${{ inputs.version }}
         REPOSITORY_NAME: ${{ inputs.repository_name }}
     
-    - name: Push
+    - name: Push last
       shell: bash
-      run: docker push $REPOSITORY_NAME-$VERSION |
-        docker push $REPOSITORY_NAME-$VERSION:$php_version
+      run: docker push $REPOSITORY_NAME-$VERSION
+      env:
+        VERSION: ${{ inputs.version }}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
+
+    - name: Push version
+      shell: bash
+      run: docker push $REPOSITORY_NAME-$VERSION:$php_version
       env:
         VERSION: ${{ inputs.version }}
         REPOSITORY_NAME: ${{ inputs.repository_name }}
