@@ -1,5 +1,6 @@
 name: php-fpm make
-on:
+on: 
+  workflow_dispatch:
   schedule:
     - cron: "15 4 * * *"   # <=== Change this value
 
