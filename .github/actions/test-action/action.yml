@@ -18,10 +18,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-     - name: Test1
+     - name: Test
        shell: bash
        run: 
-         echo ${REPOSITORY_NAME}/php-fpm-${VERSION}
+         echo $REPOSITORY_NAME/php-fpm-$VERSION
        env:
         VERSION: ${{ inputs.version }}
         REPOSITORY_NAME: ${{ inputs.repository_name }}
