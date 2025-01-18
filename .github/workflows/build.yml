@@ -41,22 +41,20 @@ jobs:
       if: ${{ env.last_version_docker != env.last_version_php }}
       run: echo "make php...${{ env.last_version_php }}"
     
-    - name: Build Php 
+    - name: Use local test-action
       if: ${{ env.last_version_docker != env.last_version_php }}
-      run: 
-        echo ${{ github.action_path }} |
-        echo $GITHUB_ACTION_PATH
-      # uses: ../actions/test-action.yml
-        # with:
-          # submodules: recursive    
+      uses: ./.github/actions/test-action
+      with:
+        version: ${{ matrix.version }}
+        repository_name: $REPOSITORY_NAME
     # - name: Build the Docker image
     #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
     # - name: Get version Php
     #   run: 
-    #     echo "php_version=$(docker run --rm $REPOSITORY_NAME/php-fpm-${{ matrix.version }} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
+    #     echo "php_version=$(docker run --rm $REPOSITORY_NAME-${{ matrix.version }} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
     # - name: Copy image with PHP version
-    #   run: docker image tag $REPOSITORY_NAME/php-fpm-${{ matrix.version }} $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
+    #   run: docker image tag $REPOSITORY_NAME-${{ matrix.version }} $REPOSITORY_NAME-${{ matrix.version }}:$php_version
     # - name: Push
     #   run: 
-    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }} |
-    #     docker push $REPOSITORY_NAME/php-fpm-${{ matrix.version }}:$php_version
+    #     docker push $REPOSITORY_NAME-${{ matrix.version }} |
+    #     docker push $REPOSITORY_NAME-${{ matrix.version }}:$php_version
