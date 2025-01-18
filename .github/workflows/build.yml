@@ -13,19 +13,25 @@ jobs:
         version: [8.3]
     runs-on: ubuntu-latest
     steps:
+      
       - name: Login to Docker Hubs
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
       - name: Get last version Docker
         run: echo "last_version_docker=$(curl -s 'https://hub.docker.com/v2/repositories/${{ vars.REPOSITORY_NAME }}-${{ matrix.version }}/tags' | jq -r '.results[-1].name')" >> $GITHUB_ENV
+      
       - name: Get last version PHP
         run: echo "last_version_php=$(curl -s 'https://www.php.net/releases/active.php' | jq -r '.["8"]["${{ matrix.version }}"].version')" >> $GITHUB_ENV
+      
       - name: Check docker version
         run: echo $last_version_docker
+      
       - name: Check PHP version
         run: echo $last_version_php
+      
       - name: Checkout
         if: ${{ env.last_version_docker != env.last_version_php }}
         uses: actions/checkout@v4
