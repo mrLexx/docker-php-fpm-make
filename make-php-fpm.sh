@@ -31,7 +31,7 @@ if echo ${versions[@]} | grep -q -w "$VERSION"; then
     echo "==="
     echo "== make php-fpm image"
     echo "==="
-    make build REPOSITORY_NAME=$REPOSITORY_NAME
+    make rebuild REPOSITORY_NAME=$REPOSITORY_NAME
     echo
 
     if [[ "${REPOSITORY_NAME,,}" != "devilbox/php-fpm" ]]; then
