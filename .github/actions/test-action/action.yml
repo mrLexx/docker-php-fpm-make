@@ -19,6 +19,7 @@ runs:
   using: "composite"
   steps:
      - name: Test
+       shell: bash
        run: 
          echo ${REPOSITORY_NAME}/php-fpm-${VERSION}
        env:
