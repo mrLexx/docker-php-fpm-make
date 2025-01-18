@@ -43,7 +43,9 @@ jobs:
     
     - name: Build Php 
       if: ${{ env.last_version_docker != env.last_version_php }}
-      run: echo "${{ github.action_path }}"
+      run: 
+        echo ${{ github.action_path }} |
+        echo $GITHUB_ACTION_PATH
       # uses: ../actions/test-action.yml
         # with:
           # submodules: recursive    
