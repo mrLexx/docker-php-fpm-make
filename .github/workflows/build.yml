@@ -40,6 +40,13 @@ jobs:
     - name: Build Php 
       if: ${{ env.last_version_docker != env.last_version_php }}
       run: echo "make php...${{ env.last_version_php }}"
+    
+    - name: Build Php 
+      if: ${{ env.last_version_docker != env.last_version_php }}
+      run: echo "${{ github.action_path }}"
+      # uses: ../actions/test-action.yml
+        # with:
+          # submodules: recursive    
     # - name: Build the Docker image
     #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
     # - name: Get version Php

@@ -1,0 +1,26 @@
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+name: 'Test'
+description: ""
+author: 'mrLexx'
+branding:
+  icon: 'code'
+  color: 'green'
+
+inputs:
+  version:
+    description: 'PHP version'
+    required: true
+  
+  repository_name:
+    description: 'Docker repository_name'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+     - name: Test
+       run: 
+         echo ${REPOSITORY_NAME}/php-fpm-${VERSION}
+       env:
+        VERSION: ${{ inputs.version }}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
