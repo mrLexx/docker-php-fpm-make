@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
         matrix:
-          version: [8.1]
+          version: [8.3]
     runs-on: ubuntu-latest
     steps:
     - name: Login to Docker Hubs
