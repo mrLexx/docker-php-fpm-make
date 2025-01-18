@@ -1,27 +1,26 @@
 # https://help.github.com/en/articles/metadata-syntax-for-github-actions
-name: 'Test'
+name: "Test"
 description: ""
-author: 'mrLexx'
+author: "mrLexx"
 branding:
-  icon: 'code'
-  color: 'green'
+  icon: "code"
+  color: "green"
 
 inputs:
   version:
-    description: 'PHP version'
+    description: "PHP version"
     required: true
-  
+
   repository_name:
-    description: 'Docker repository_name'
+    description: "Docker repository_name"
     required: true
 
 runs:
   using: "composite"
   steps:
-     - name: Test
-       shell: bash
-       run: 
-         echo ${REPOSITORY_NAME}-${VERSION}
-       env:
+    - name: Test
+      shell: bash
+      run: echo ${REPOSITORY_NAME}-${VERSION}
+      env:
         VERSION: ${{ inputs.version }}
         REPOSITORY_NAME: ${{ inputs.repository_name }}
