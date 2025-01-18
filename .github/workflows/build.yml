@@ -37,6 +37,9 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: recursive    
+    - name: Build Php 
+      if: ${{ env.last_version_docker != env.last_version_php }}
+      run: echo "make php...${{ env.last_version_php }}"
     # - name: Build the Docker image
     #   run: cd ./docker-php-fpm-8.1 && make build REPOSITORY_NAME=$REPOSITORY_NAME
     # - name: Get version Php
