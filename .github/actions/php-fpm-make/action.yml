@@ -21,16 +21,16 @@ runs:
     - name: Build the Docker image
       shell: bash
       run: cd ./docker-php-fpm-$VERSION && make build REPOSITORY_NAME=$REPOSITORY_NAME
-    - name: Get version Php
-      shell: bash
-      run: echo "php_version=$(docker run --rm ${REPOSITORY_NAME}-${VERSION} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
-    - name: Copy image with PHP version
-      shell: bash
-      run: docker image tag ${REPOSITORY_NAME}-${VERSION} ${REPOSITORY_NAME}-${VERSION}:$php_version
-    - name: Push
-      shell: bash
-      run: docker push ${REPOSITORY_NAME}-${VERSION} |
-        docker push ${REPOSITORY_NAME}-${VERSION}:$php_version
+    # - name: Get version Php
+    #   shell: bash
+    #   run: echo "php_version=$(docker run --rm ${REPOSITORY_NAME}-${VERSION} php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION . "\n";')" >> $GITHUB_ENV
+    # - name: Copy image with PHP version
+    #   shell: bash
+    #   run: docker image tag ${REPOSITORY_NAME}-${VERSION} ${REPOSITORY_NAME}-${VERSION}:$php_version
+    # - name: Push
+    #   shell: bash
+    #   run: docker push ${REPOSITORY_NAME}-${VERSION} |
+    #     docker push ${REPOSITORY_NAME}-${VERSION}:$php_version
       env:
         VERSION: ${{ inputs.version }}
         REPOSITORY_NAME: ${{ inputs.repository_name }}
